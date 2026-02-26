@@ -1,22 +1,35 @@
-# Astro Starter Kit: Minimal
+# 🥭 JuliaOli pages: Software Engineering Portfolio
+Personal website for a technical portfolio using Astro.js, Tailwind CSS, delivering static HTML with an fully automated infrastructure pipeline on Github Actions.
 
-```sh
-npm create astro@latest -- --template minimal
-```
+## 🎯 Project Purpose
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+* **Showcase Technical Depth:** Featuring a list of full-stack applications and tools.
+* **Exhibit DevOps Proficiency:** Utilizing simple automated CI/CD pipelines for seamless deployment.
+* **Demonstrate Performance:** Achieving good scores on Google Lighthouse.
+
+## 🛠️ Tech Stack
+
+* **Framework:** Astro.js (Static Site Generation - SSG)
+
+* **Styling:** Tailwind CSS (Utility-first CSS)
+
+* **Build Engine:** Vite (Native ESM)
+
+* **CI/CD:** GitHub Actions
+
+* **Hosting:** GitHub Pages
 
 ## 🚀 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
-
 ```text
-/
-├── public/
+├── .github/workflows/  # CI/CD Automation scripts
+├── public/             # Static assets (fonts, icons, robots.txt)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/     # Modular and reusable UI components
+│   ├── layouts/        # Base HTML templates (Shells)
+│   └── pages/          # File-based routing
+├── astro.config.mjs    # Astro & Integrations configuration
+└── tailwind.config.mjs # Design System customization
 ```
 
 Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
@@ -25,7 +38,33 @@ There's nothing special about `src/components/`, but that's where we like to put
 
 Any static assets, like images, can be placed in the `public/` directory.
 
-## 🧞 Commands
+## ⚙️ Getting Started
+Follow these steps to set up your local development environment:
+
+1. Prerequisites
+Ensure you have Node.js (v18 or higher) installed on your machine.
+
+2. Installation
+Clone the repository and install the dependencies:
+
+```bash
+# Clone the repository
+git clone https://github.com/[your-username]/[your-repo].git
+
+# Navigate to the project folder
+cd [your-repo]
+
+# Install dependencies
+npm install
+```
+
+3. Development
+To start the local server with Hot Module Replacement (HMR) powered by Vite:
+```bash
+npm run dev
+```
+
+## 🧞 Commands to run locally
 
 All commands are run from the root of the project, from a terminal:
 
@@ -36,8 +75,34 @@ All commands are run from the root of the project, from a terminal:
 | `npm run build`           | Build your production site to `./dist/`          |
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+## 🔧 Required Configuration for GitHub Pages
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+For the automated deployment to work correctly, the following settings must be configured in `astro.config.mjs`. This ensures that asset paths (JS, CSS, Images) are resolved correctly under your repository subfolder.
+
+```javascript
+// astro.config.mjs
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+
+export default defineConfig({
+  // 1. Your production URL
+  site: 'https://[your-username].github.io',
+  
+  // 2. Your repository name (MUST start with a forward slash)
+  base: '/[your-repo-name]', 
+  
+  integrations: [tailwind()],
+  output: 'static',
+});
+```
+
+## 🚀 Deployment Process
+### GitHub Actions Setup
+The project uses a custom GitHub Action (located in .github/workflows/deploy.yml) to build and deployment is 100% automated.
+
+1. Any `push` or `merge` to the `main` branch triggers the workflow.
+
+2. The runner installs dependencies, validates the Vite build, and exports the static assets.
+
+3. The site is automatically published to GitHub Pages.
